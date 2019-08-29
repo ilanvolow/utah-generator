@@ -1,14 +1,14 @@
 
 
-import App from './app';
-import { Entity, Property } from './entity';
-import NewThreadHandler from './handlers/NewThreadHandler';
-import Route from './route';
-import Response from './response';
+import App from './components/app'
+import { Entity, Property } from './components/entity';
+import HelloWorldHandler from './handlers/helloworld';
+import Route from './components/route';
+import Response from './components/response';
 
 <App>
-    <Route path='/test' method='get' handler={NewThreadHandler}>
-        <Response code='200' name='successfulThreadResponse'/>
+    <Route path='/hello' method='get' handler={HelloWorldHandler}>
+        <Response code='200' name='successfulResponse'/>
         <Response code='400' title='Invalid Thread' name='invalidThreadResponse'/>
     </Route>
 </App>

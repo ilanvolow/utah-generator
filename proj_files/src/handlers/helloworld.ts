@@ -2,8 +2,6 @@ import ResponseHandler from '../components/response_handler'
 
 import * as express from 'express';
 
-import * as express from 'express';
-
 class HelloWorldHandler implements ResponseHandler {
 
     public handle(request: express.Request, response: express.Response) {
