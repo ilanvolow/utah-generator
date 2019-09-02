@@ -19,7 +19,7 @@
     "test:watch": "jest -o --watch",
     "typecheck": "tsc"
   },
-  "author": "Clinton Bess",
+  "author": "Ilan Volow",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.5.5",
