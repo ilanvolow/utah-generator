@@ -1,10 +1,22 @@
 // Parts of this app where shamelessly pilfered/inspired by the express-generator
 
 import * as path from 'path';
+import ArtworkPrinter from './artwork';
 
 const figlet = require('figlet');
 const chalk = require('chalk');
 const clear = require('clear');
+
+clear();
+console.log(
+  chalk.red(
+    figlet.textSync('Utah.ts', { horizontalLayout: 'full' })
+  )
+);
+
+console.log("\n\n");
+//console.log(artwork.default);
+ArtworkPrinter.printArtwork();
 
 import * as commander from 'commander';
 import * as fs from 'fs-extra';
@@ -29,9 +41,3 @@ fs.mkdirSync(destPath);
 fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
 
 
-clear();
-console.log(
-  chalk.red(
-    figlet.textSync('Utah.ts', { horizontalLayout: 'full' })
-  )
-);

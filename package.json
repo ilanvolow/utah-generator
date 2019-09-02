@@ -2,9 +2,10 @@
   "name": "utah-generator",
   "version": "1.0.0",
   "description": "Utah.js project generator",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
+  "preferGlobal": true,
   "bin": {
-    "utah": "./lib/index.js"
+    "utah": "./dist/index.js"
   },
   "repository": "git@github.com:ilanvolow/utah-generator.git",
   "author": "Ilan Volow <ilanvolow@gmail.com>",
@@ -32,5 +33,9 @@
     "figlet": "^1.2.3",
     "fs-extra": "^8.1.0",
     "path": "^0.12.7"
-  }
+  },
+  "files": [
+    "dist/",
+    "proj_files/"
+  ]
 }
