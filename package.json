@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "create": "npm run build && npm run test",
-    "build": "tsc -p .",
+    "build": "tsc -p .; node ./node_modules/shebangify/shebangify.js ./dist/index.js",
     "test": "yarn global add utah",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
@@ -32,7 +32,8 @@
     "commander": "^3.0.0",
     "figlet": "^1.2.3",
     "fs-extra": "^8.1.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "shebangify": "0.0.0"
   },
   "files": [
     "dist/",

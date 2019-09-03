@@ -14,9 +14,24 @@ console.log(
   )
 );
 
-console.log("\n\n");
-//console.log(artwork.default);
-ArtworkPrinter.printArtwork();
+var walk = function(dir:string) {
+  let results: Array<string> = [];
+  var list = fs.readdirSync(dir)
+  list.forEach(function(file) {
+      file = dir + '/' + file;
+      var stat = fs.statSync(file);
+      if (stat && stat.isDirectory()) { 
+          /* Recurse into a subdirectory */
+          results = results.concat(walk(file));
+      } else { 
+          /* Is a file */
+          results.push(file);
+      }
+  });
+  return results;
+}
+
+console.log("\n");
 
 import * as commander from 'commander';
 import * as fs from 'fs-extra';
@@ -40,4 +55,11 @@ let destPath = path.join('.', targetDir);
 fs.mkdirSync(destPath);
 fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
 
+var totalDir = walk(destPath)
+
+totalDir.forEach(item => console.log(`create : ${item}`));
+
+console.log('\n' + "Project successfully created. Commence beachstorming.\n\n")
+
+ArtworkPrinter.printArtwork();
 
