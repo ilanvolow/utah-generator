@@ -44,13 +44,10 @@ class Route {
     }
 
     constructor(path: string,  method: string, handler: any) {
-        // TODO: make sure path, method, and handler are correct types. 
-        // Throw exception if not the case
         this.rpath = path;
         this.rmethod = method;
         this.rhandler = new handler;
         this.responses = {};
-
     }
 
     public route(): express.Router {
