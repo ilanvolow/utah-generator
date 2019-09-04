@@ -8,7 +8,7 @@ import Response from './components/response';
 
 <App>
     <Route path='/hello' method='get' handler={HelloWorldHandler}>
-        <Response code='200' name='successfulResponse'/>
-        <Response code='400' title='Invalid Thread' name='invalidThreadResponse'/>
+        <Response code='200' name='sucessfulHelloResponse'></Response>
+        <Response code='400' title='Invalid Thread' name='invalidHelloResponse'/>
     </Route>
 </App>
