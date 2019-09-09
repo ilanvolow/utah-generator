@@ -1,14 +1,11 @@
 
-
-import App from './components/app'
-import { Entity, Property } from './components/entity';
+import { App, Route, Response, Param } from './utah';
 import HelloWorldHandler from './handlers/helloworld';
-import Route from './components/route';
-import Response from './components/response';
 
 <App>
     <Route path='/hello' method='get' handler={HelloWorldHandler}>
-        <Response code='200' name='successfulHelloResponse'></Response>
-        <Response code='400' title='Invalid Thread' name='invalidHelloResponse'/>
+        <Param name='person_name' paramtype='query' datatype='string' optional={true}/>
+        <Response code='200' name='successfulHelloResponse'/>
+        <Response code='400' message='We do not allow anonymity' name='invalidHelloResponse'/>
     </Route>
 </App>

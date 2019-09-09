@@ -2,6 +2,7 @@
 
 import * as path from 'path';
 import ArtworkPrinter from './artwork';
+import * as simplegit from 'simple-git/promise';
 
 const figlet = require('figlet');
 const chalk = require('chalk');
@@ -58,6 +59,11 @@ fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
 var totalDir = walk(destPath)
 
 totalDir.forEach(item => console.log(`create : ${item}`));
+
+console.log('Initializing git repository');
+const git = simplegit();
+
+
 
 console.log('\n' + "Project successfully created. Commence beachstorming.\n\n")
 
