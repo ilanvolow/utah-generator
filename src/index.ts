@@ -2,11 +2,12 @@
 
 import * as path from 'path';
 import ArtworkPrinter from './artwork';
-import * as simplegit from 'simple-git/promise';
 
 const figlet = require('figlet');
 const chalk = require('chalk');
 const clear = require('clear');
+//const git = require('simple-git/promise');
+// var Git = require("nodegit");
 
 clear();
 console.log(
@@ -60,8 +61,15 @@ var totalDir = walk(destPath)
 
 totalDir.forEach(item => console.log(`create : ${item}`));
 
+process.chdir(destPath);
+
+require('simple-git')()
+     .init()
+     .add('./*')
+     .commit("Initial commit")
+
 console.log('Initializing git repository');
-const git = simplegit();
+
 
 
 

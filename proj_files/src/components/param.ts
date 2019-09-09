@@ -7,7 +7,7 @@ class Param {
     public isOptional: boolean;
 
     static jsxFactory(args: any, children: any[]): Param | undefined {
-        if (Param.validateParam(args.name, args.datatype, args.paramtype, args.optional)) {
+        if (Param.validateParam(args)) {
             const newParam: Param = new Param(args.name, args.datatype, args.paramtype, args.optional);
             return newParam;
         } else {
