@@ -1,79 +1,103 @@
 // Parts of this app where shamelessly pilfered/inspired by the express-generator
 
 import * as path from 'path';
-import ArtworkPrinter from './artwork';
+import * as commander from 'commander';
+import * as fs from 'fs-extra';
 
 const figlet = require('figlet');
 const chalk = require('chalk');
 const clear = require('clear');
-//const git = require('simple-git/promise');
-// var Git = require("nodegit");
 
-clear();
-console.log(
-  chalk.red(
-    figlet.textSync('Utah.ts', { horizontalLayout: 'full' })
-  )
-);
+import ArtworkPrinter from './artwork';
 
-var walk = function(dir:string) {
-  let results: Array<string> = [];
-  var list = fs.readdirSync(dir)
-  list.forEach(function(file) {
-      file = dir + '/' + file;
-      var stat = fs.statSync(file);
-      if (stat && stat.isDirectory()) { 
-          /* Recurse into a subdirectory */
-          results = results.concat(walk(file));
-      } else { 
-          /* Is a file */
-          results.push(file);
-      }
-  });
-  return results;
-}
-
-console.log("\n");
-
-import * as commander from 'commander';
-import * as fs from 'fs-extra';
-
-const PROJECT_TEMPLATE_DIR:string = path.join(__dirname, '..', 'proj_files');
-
-var MODE_0666 = parseInt('0666', 8)
-var MODE_0755 = parseInt('0755', 8)
 var VERSION = require('../package').version
 
-let cmd = new commander.Command('utah')
-  .version(VERSION, '    --version')
-  .usage('[options] [dir]')
-  .option('-d, --datastore <datastore>', 'add data store support (lcvp|mongo|postgres) (defaults to lcvp)')
-  .parse(process.argv)
+class UtahGenerator {
 
+    public generateUtahProject() {
 
-let targetDir = cmd.args.shift() || '.';
-let destPath = path.join('.', targetDir);
+      // Print initial header at top of screen
+      clear();
+      this.printUtahHeader()
 
-fs.mkdirSync(destPath);
-fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
+      // Get the paths of where we want to install stuff
+      const PROJECT_TEMPLATE_DIR:string = path.join(__dirname, '..', 'proj_files');
+      var MODE_0666 = parseInt('0666', 8)
+      var MODE_0755 = parseInt('0755', 8)
 
-var totalDir = walk(destPath)
+      let cmd = new commander.Command('utah')
+      .version(VERSION, '    --version')
+      .usage('[options] [dir]')
+      .option('-d, --datastore <datastore>', 'add data store support (lcvp|mongo|postgres) (defaults to lcvp)')
+      .option('    --no-git', 'do not automatically inital and commit git repo for the project')
+      .parse(process.argv)
 
-totalDir.forEach(item => console.log(`create : ${item}`));
+      let targetDir = cmd.args.shift() || '.';
+      let destPath = path.join('.', targetDir);
 
-process.chdir(destPath);
+      fs.mkdirSync(destPath);
+      fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
 
-require('simple-git')()
-     .init()
-     .add('./*')
-     .commit("Initial commit")
+      this.printGeneratedFilesList(destPath)
 
-console.log('Initializing git repository');
+      if (cmd.git) {
+        this.createGitRepo(destPath);
+      }
+     
 
+      console.log('\n');
 
+      ArtworkPrinter.printArtwork();
+      
+      console.log('\n' + "Project successfully created. Commence beachstorming.\n\n")
+    }
+    
+    public printGeneratedFilesList(destPath:string) {
+      // Prints a list of all the files in the project directory that have been created
+      var walk = function(dir:string) {
+        let results: Array<string> = [];
+        var list = fs.readdirSync(dir)
+        list.forEach(function(file) {
+            file = dir + '/' + file;
+            var stat = fs.statSync(file);
+            if (stat && stat.isDirectory()) { 
+                /* Recurse into a subdirectory */
+                results = results.concat(walk(file));
+            } else { 
+                /* Is a file */
+                results.push(file);
+            }
+        });
+        return results;
+      }
 
+      var totalDir = walk(destPath)
+      totalDir.forEach(item => console.log(`create : ${item}`));
+      console.log('\n');
+    }
 
-console.log('\n' + "Project successfully created. Commence beachstorming.\n\n")
+    public printUtahHeader() {
+      // Prints the "Utah.js" ascii art header at the top
+      console.log(
+        chalk.red(
+          figlet.textSync('Utah.ts', { horizontalLayout: 'full' })
+        )
+      );
+    }
 
-ArtworkPrinter.printArtwork();
+    public createGitRepo(destPath:string) {
+      // Creates and inits an initial git repository
+      // TODO: Put in a flag to avoid automatically initializing a git repo
+      process.chdir(destPath);
 
+      require('simple-git')()
+          .init()
+          .add('./*')
+          .commit("Initial commit")
+
+      console.log('Initializing git repository\n');
+    }
+}
+
+let generator = new UtahGenerator();
+generator.generateUtahProject()
