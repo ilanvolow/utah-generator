@@ -6,8 +6,9 @@ import debugLib from 'debug';
 import http from 'http';
 import * as bodyParser from 'body-parser';
 import Route from './route';
-import { Entity } from './entity';
+import { Data, Entity } from './entity/data';
 import React from 'react';
+
 
 const debug = debugLib('your-project-name:server');
 
@@ -23,9 +24,9 @@ class App {
         if (item instanceof Route) {
           const route = item as Route;
           newApp.addRoute(route);
-        } else if (item instanceof Entity) {
-          const currEntity = item as Entity;
-          newApp.addEntity(currEntity);
+        } else if (item instanceof Data) {
+          const currData = item as Data;
+          newApp.addDataEntityRoutes(currData);
         }
       }
       return newApp;
@@ -53,6 +54,12 @@ class App {
     addEntity(entity: Entity) {
       const routePrimitive = entity.router;
       this.app.use('/', routePrimitive);
+    }
+
+    addDataEntityRoutes(data: Data) {
+      data.entities.map(x => {
+        this.app.use('/', x.router);
+      })
     }
 
     normalizePort(val: string): string {
