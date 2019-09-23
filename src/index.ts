@@ -38,6 +38,8 @@ class UtahGenerator {
       fs.mkdirSync(destPath);
       fs.copySync(PROJECT_TEMPLATE_DIR, destPath);
 
+      this.renamePackage(destPath, targetDir);
+
       this.printGeneratedFilesList(destPath)
 
       if (cmd.git) {
@@ -50,6 +52,15 @@ class UtahGenerator {
       ArtworkPrinter.printArtwork();
       
       console.log('\n' + "Project successfully created. Commence beachstorming.\n\n")
+    }
+
+    public renamePackage(destPath: string, targetName: string) {
+      let packagePath = path.join(destPath, 'package.json');
+      let jsonString = fs.readFileSync(packagePath).toString();
+      let packageFile = JSON.parse(jsonString);
+      packageFile.name = targetName;
+      let packageString = JSON.stringify(packageFile, null, 2);
+      fs.writeFileSync(packagePath, packageString);
     }
     
     public printGeneratedFilesList(destPath:string) {
