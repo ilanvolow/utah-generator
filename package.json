@@ -35,7 +35,7 @@
     "nodegit": "^0.25.1",
     "path": "^0.12.7",
     "shebangify": "0.0.0",
-    "simple-git": "^1.126.0",
+    "simple-git": "^3.5.0",
     "utah": "git+https://github.com/ilanvolow/utah.git"
   },
   "files": [
