@@ -64,7 +64,7 @@
   "dependencies": {
     "@types/mongoose": "^5.5.12",
     "cookie-parser": "^1.4.4",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "mongodb": "^3.3.0",
     "mongoose": "^5.6.9",
     "morgan": "^1.9.1",
